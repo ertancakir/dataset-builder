@@ -8,6 +8,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
+
 class Ui_DatasetBuilder(object):
     def setupUi(self, DatasetBuilder):
         DatasetBuilder.setObjectName("DatasetBuilder")
@@ -21,6 +23,8 @@ class Ui_DatasetBuilder(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(190, 10, 81, 31))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.fileChooseButtonClicked)
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 60, 91, 17))
         self.label.setObjectName("label")
@@ -46,4 +50,18 @@ class Ui_DatasetBuilder(object):
         DatasetBuilder.setWindowTitle(_translate("DatasetBuilder", "Dataset Builder"))
         self.pushButton.setText(_translate("DatasetBuilder", "Choose"))
         self.label.setText(_translate("DatasetBuilder", "Data Name : "))
+
+
+    def fileChooseButtonClicked(self):
+        fileChooser = QWidget()
+        fileChooser.setGeometry(10,10,640,480)
+        fileChooser.setWindowTitle('Choose a Image File')
+
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(fileChooser,"QFileDialog.getOpenFileName()", "","Image Files (*.jpeg),(*.png),(*.jpg)", options=options)
+        fileChooser.show()
+
+        self.imgPath.setText(fileName)
+
 
