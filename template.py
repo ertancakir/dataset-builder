@@ -10,6 +10,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
 
+from imageCutter import ImageCutter
+
 class Ui_DatasetBuilder(object):
     def setupUi(self, DatasetBuilder):
         DatasetBuilder.setObjectName("DatasetBuilder")
@@ -23,7 +25,8 @@ class Ui_DatasetBuilder(object):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(190, 10, 81, 31))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.clicked.connect(self.fileChooseButtonClicked)
+
+        self.pushButton.clicked.connect(self.fileChooseButtonClicked)   #This code for click event
 
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 60, 91, 17))
@@ -59,9 +62,12 @@ class Ui_DatasetBuilder(object):
 
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(fileChooser,"QFileDialog.getOpenFileName()", "","Image Files (*.jpeg),(*.png),(*.jpg)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(fileChooser,"Choose a Image File", "","Image Files (*.png)", options=options)
         fileChooser.show()
 
         self.imgPath.setText(fileName)
+
+        imgCutter = ImageCutter(fileName)
+        imgCutter.cutImage()
 
 
