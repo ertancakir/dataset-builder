@@ -7,14 +7,11 @@ class ImageCutter(object):
         self.fileName = fileName
         
 
-    def cutImage(self):
-        fName = ['9','8','7','6','5','4','3','2','1','0']
+    def cutImage(self, imageName):
+        imageList = []
         im = cv2.imread(self.fileName,0)
         ret,thresh = cv2.threshold(im,127,255,0)
         im2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-
-        cv2.imshow("Figure 1", im2)
-        cv2.imshow("Figure 2", im)
 
         i = 0
         for c in contours:
@@ -32,11 +29,11 @@ class ImageCutter(object):
             #print("Sol Alt = (" + str(x_min) + "," + str(y_max) + ")")
             #print("Sag Alt = (" + str(x_max) + "," + str(y_max) + ")}\n")
 
+            
             if math.fmod(i,3) == 2:
                 tmpImage = im
                 crop_img = tmpImage[y_min:y_max, x_min:x_max]
-                cv2.imwrite('./cropped-' + str(i) + '.png',crop_img)
-                print(str(i))
+                cv2.imwrite(imageName + str(i) + '.png',crop_img)
             i+=1
             
 
