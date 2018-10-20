@@ -1,14 +1,8 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'DatasetBuilder.ui'
-#
-# Created by: PyQt5 UI code generator 5.10.1
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
+from PyQt5.QtGui import QPixmap
+
+from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QListWidget
 
 from imageCutter import ImageCutter
 
@@ -63,7 +57,7 @@ class Ui_DatasetBuilder(object):
         self.groupBox.setGeometry(QtCore.QRect(0, 0, 211, 151))
         self.groupBox.setObjectName("groupBox")
 
-        self.listImages = QtWidgets.QListView(self.groupBox)
+        self.listImages = QtWidgets.QListWidget(self.groupBox)
         self.listImages.setGeometry(QtCore.QRect(0, 20, 211, 131))
         self.listImages.setObjectName("listImages")
 
@@ -82,6 +76,9 @@ class Ui_DatasetBuilder(object):
 
         #Text Change Events
         self.txtDataName.textChanged.connect(self.txtDataNameChanged)
+
+        #ListWidget Get Selected
+        self.listImages.itemSelectionChanged.connect(self.listImagesSelectionChanged)
 
     def retranslateUi(self, DatasetBuilder):
         _translate = QtCore.QCoreApplication.translate
@@ -112,13 +109,27 @@ class Ui_DatasetBuilder(object):
         dataName = self.txtDataName.text()
         
         imgCutter = ImageCutter(imgPath)
-        imgCutter.cutImage(dataName)
+        imageList = imgCutter.cutImage(dataName)
+
+        for image in imageList:
+            self.listImages.addItem(image)
 
     def btnCleanClicked(self):
         self.txtPath.setText("")
         self.txtDataName.setText("")
         self.btnClean.setEnabled(False)
         self.btnCut.setEnabled(False)
+        self.listImages.clear()
 
     def txtDataNameChanged(self):
         self.btnCut.setEnabled(True)
+
+
+    #Burada hata var clear butonuna basildiktan sonra ve list widget temizlendiginde program crash oluyor
+    def listImagesSelectionChanged(self):
+        if(self.listImages.count() is not 0):
+            selectedImagePath = self.listImages.selectedItems()[0].text()
+            image = QPixmap(selectedImagePath)
+            self.imageView.setPixmap(image)
+        
+        
