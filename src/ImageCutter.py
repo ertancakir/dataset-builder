@@ -31,14 +31,14 @@ class ImageCutter(object):
             #print("Sag Alt = (" + str(x_max) + "," + str(y_max) + ")}\n")
             if i == 1:
                 big_image = im[y_min:y_max, x_min:x_max]
-                x_min = 2
-                x_max = i_width
-                y_min = -i_height + 2
-                y_max = 0
+                x_min = 1
+                x_max = i_width + 1
+                y_min = -i_height + 1
+                y_max = 0 - 1
                 for k in range(1,50):
                     temp = big_image
                     if math.fmod(k,7) == 1:
-                        x_min = 0
+                        x_min = 1
                         x_max = i_width
                         y_min += i_height
                         y_max += i_height

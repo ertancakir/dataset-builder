@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPixmap
 
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog, QListWidget
 
-from imageCutter import ImageCutter
+from ImageCutter import ImageCutter
 
 class Ui_DatasetBuilder(object):
     def setupUi(self, DatasetBuilder):
