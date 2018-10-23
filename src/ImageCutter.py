@@ -1,15 +1,24 @@
 import cv2
 import numpy as np
 import math
+import os
 
 class ImageCutter(object):
-    def __init__(self,fileName):
-        self.fileName = fileName
+    def __init__(self,imagePath):
+        self.imagePath = imagePath
         
 
     def cutImage(self, imageName):
+        if not os.path.exists("./outputs"):
+            os.makedirs("./outputs")
+        
+        output_dir = "./outputs/" + imageName
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        
         imageList = []
-        im = cv2.imread(self.fileName,0)
+        im = cv2.imread(self.imagePath,0)
         ret,thresh = cv2.threshold(im,127,255,0)
         im2, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
@@ -21,6 +30,7 @@ class ImageCutter(object):
             x_min = np.min(c[:,0])
             y_max = np.max(c[:,1])
             y_min = np.min(c[:,1])
+
             #I divided it to 7 because there were 7 columns and 7 rows in test image
             i_width = (x_max - x_min) / 7
             i_height = (y_max - y_min) / 7
@@ -43,14 +53,12 @@ class ImageCutter(object):
                         y_min += i_height
                         y_max += i_height
                     cropped_image = temp[y_min:y_max, x_min:x_max]
-                    cv2.imwrite(imageName + str(k) + '.png',cropped_image)
-                    imageList.append(imageName + str(k) + '.png')
+                    #cv2.imwrite(output_dir + '/' +imageName + str(k) + '.png',cropped_image)
+                    cv2.imwrite(os.path.join(output_dir, imageName + str(k) + '.png'),cropped_image)
                     x_min += i_width
                     x_max += i_width
                 break
             i+=1
-
-        return imageList
 
         
 
