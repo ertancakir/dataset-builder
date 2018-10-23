@@ -95,6 +95,11 @@ class Ui_DatasetBuilder(object):
             cutter = ImageCutter(self.listImages.item(item).text())
             cutter.cutImage(dataName)
 
+        self.listImages.clear()
+        self.txtDataName.clear()
+
+        
+
         
 
 

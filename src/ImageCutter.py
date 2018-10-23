@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import math
 import os
+import random
 
 class ImageCutter(object):
     def __init__(self,imagePath):
@@ -53,8 +54,9 @@ class ImageCutter(object):
                         y_min += i_height
                         y_max += i_height
                     cropped_image = temp[y_min:y_max, x_min:x_max]
+                    num = random.randint(0,60000)
                     #cv2.imwrite(output_dir + '/' +imageName + str(k) + '.png',cropped_image)
-                    cv2.imwrite(os.path.join(output_dir, imageName + str(k) + '.png'),cropped_image)
+                    cv2.imwrite(os.path.join(output_dir, imageName + '-' + str(num) + '.png'),cropped_image)
                     x_min += i_width
                     x_max += i_width
                 break
